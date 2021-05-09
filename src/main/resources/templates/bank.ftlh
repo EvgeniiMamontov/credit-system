@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
   </head>
   <body>
-  <H3>Banks</H3>
+  <H3><a href="/">Banks</a></H3>
   <br>
   <a href="/banks/new"> New bank </a>
   <br>
@@ -27,10 +27,10 @@
          <span> ${bank.name} </span>
       </td>
       <td>
-         <a href="${bank.uuid}/edit">Edit</a>
+         <a href="/banks/${bank.uuid}/edit">Edit</a>
       </td>
       <td>
-         <a href="${bank.uuid}/delete">Delete</a>
+         <a href="/banks/${bank.uuid}/delete">Delete</a>
       </td>
     </tr>
     </#list>

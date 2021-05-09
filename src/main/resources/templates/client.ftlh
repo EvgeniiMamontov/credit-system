@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
   </head>
   <body>
-  <H3>Clients</H3>
+  <H3><a href="/">Clients</a></H3>
   <br>
   <a href="/clients/new"> New client </a>
   <br>
@@ -39,10 +39,10 @@
          <span> ${client.passportNumber} </span>
       </td>
       <td>
-         <a href="${client.uuid}/edit">Edit</a>
+         <a href="/clients/${client.uuid}/edit">Edit</a>
       </td>
       <td>
-         <a href="${client.uuid}/delete">Delete</a>
+         <a href="/clients/${client.uuid}/delete">Delete</a>
       </td>
     </tr>
     </#list>

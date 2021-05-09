@@ -2,11 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Edit Client</title>
+    <title>Edit client</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
   </head>
   <body>
-  <H3>Edit client</H3>
+  <H3><a href="/">Edit Client</a></H3>
     <br>
     <form method="post">
       <label for="name">ID:</label><br>

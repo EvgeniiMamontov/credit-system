@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
   </head>
   <body>
-    <H3>New client</H3>
+    <H3><a href="/">New client</a></H3>
       <br>
     <form method="post">
       <label for="name">Full name:</label><br>

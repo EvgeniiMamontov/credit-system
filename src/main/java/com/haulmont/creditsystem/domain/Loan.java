@@ -41,9 +41,14 @@ public class Loan {
     //@DecimalMax("99.00")
     private int interestRate;
 
-    public Loan(String name, long limit, int interestRate) {
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "bank_uuid")
+    private Bank bank;
+
+    public Loan(String name, long limit, int interestRate, Bank bank) {
         this.name = name;
         this.limit = limit;
         this.interestRate = interestRate;
+        this.bank = bank;
     }
 }

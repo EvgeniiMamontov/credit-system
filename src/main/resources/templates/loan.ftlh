@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
   </head>
   <body>
-  <H3>Loans</H3>
+  <H3><a href="/">Loans</a></H3>
   <br>
   <a href="/loans/new"> New loan </a>
   <br>
@@ -17,6 +17,7 @@
           <th>Name</th>
           <th>Limit</th>
           <th>Interest</th>
+          <th>Bank</th>
           <th>Edit</th>
           <th>Delete</th>
         </tr>
@@ -35,10 +36,13 @@
          <span> ${loan.interestRate}% </span>
       </td>
       <td>
-         <a href="${loan.uuid}/edit">Edit</a>
+         <span> ${loan.bank.name} </span>
       </td>
       <td>
-         <a href="${loan.uuid}/delete">Delete</a>
+         <a href="/loans/${loan.uuid}/edit">Edit</a>
+      </td>
+      <td>
+         <a href="/loans/${loan.uuid}/delete">Delete</a>
       </td>
     </tr>
     </#list>
