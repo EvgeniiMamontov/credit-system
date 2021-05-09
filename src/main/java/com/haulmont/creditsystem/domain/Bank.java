@@ -1,12 +1,16 @@
 package com.haulmont.creditsystem.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.UUID;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name="bank")
 public class Bank {
@@ -23,4 +27,9 @@ public class Bank {
 
     //список кредитов
     //список клиентов
+
+
+    public Bank(String name) {
+        this.name = name;
+    }
 }

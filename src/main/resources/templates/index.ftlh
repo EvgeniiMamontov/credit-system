@@ -8,5 +8,6 @@
   <body>
     <a href="/clients"> Clients </a>
     <a href="/loans"> Loans </a>
+    <a href="/banks"> Banks </a>
   </body>
 </html>
