@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -25,9 +26,8 @@ public class Bank {
     @NotEmpty
     private String name;
 
-    //список кредитов
-    //список клиентов
-
+    @ManyToMany
+    Set<Client> clients;
 
     public Bank(String name) {
         this.name = name;

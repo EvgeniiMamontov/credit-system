@@ -5,6 +5,7 @@ import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 import java.util.UUID;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
@@ -43,6 +44,9 @@ public class Client implements Serializable {
     @NotEmpty
     @Size(min = 5, max = 50)
     private String passportNumber;
+
+    @ManyToMany
+    Set<Bank> banks;
 
     public Client(@NonNull String fullName, String phoneNumber, String email, String passportNumber) {
         this.fullName = fullName;

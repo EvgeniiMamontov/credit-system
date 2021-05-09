@@ -19,7 +19,7 @@ public class BankController {
     @GetMapping("")
     public String getAllBanks(Model model) {
         model.addAttribute("banks", bankService.getAllBanks() );
-        return "bank";
+        return "banks";
     }
 
     @GetMapping("/new")
@@ -42,7 +42,7 @@ public class BankController {
     @PostMapping("/{uuid}/edit")
     public String updateBank(@PathVariable(name = "uuid") UUID uuid,
                              @RequestParam(name = "name") String name) {
-        bankService.save(new Bank(uuid, name));
+        bankService.save(new Bank(uuid, name, null));
         return "redirect:/banks/";
     }
 

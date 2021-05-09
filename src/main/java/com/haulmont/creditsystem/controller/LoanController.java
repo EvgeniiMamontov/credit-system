@@ -24,7 +24,7 @@ public class LoanController {
     @GetMapping("")
     public String getAllLoans(Model model) {
         model.addAttribute("loans", loanService.getAllLoans() );
-        return "loan";
+        return "loans";
     }
 
     @GetMapping("/new")

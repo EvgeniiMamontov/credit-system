@@ -19,7 +19,7 @@ public class ClientController {
     @GetMapping("")
     public String getAllClients(Model model) {
         model.addAttribute("clients", clientService.getAllClients() );
-        return "client";
+        return "clients";
     }
 
     @GetMapping("/new")
@@ -48,7 +48,7 @@ public class ClientController {
                                @RequestParam(name = "phone") String phoneNumber,
                                @RequestParam(name = "email") String email,
                                @RequestParam(name = "passport") String passportNumber) {
-        clientService.save(new Client(uuid, fullName, phoneNumber, email, passportNumber));
+        clientService.save(new Client(uuid, fullName, phoneNumber, email, passportNumber, null));
         return "redirect:/clients/";
     }
 
