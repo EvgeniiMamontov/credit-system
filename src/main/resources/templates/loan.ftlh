@@ -32,7 +32,7 @@
           <span> ${loan.limit} </span>
       </td>
       <td>
-         <span> ${loan.interestRate} </span>
+         <span> ${loan.interestRate}% </span>
       </td>
       <td>
          <a href="${loan.uuid}/edit">Edit</a>

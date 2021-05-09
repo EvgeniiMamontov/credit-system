@@ -1,6 +1,5 @@
 package com.haulmont.creditsystem.controller;
 
-import com.haulmont.creditsystem.domain.Client;
 import com.haulmont.creditsystem.domain.Loan;
 import com.haulmont.creditsystem.service.LoanService;
 import org.springframework.beans.factory.annotation.Autowired;

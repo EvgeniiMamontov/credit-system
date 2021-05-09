@@ -4,6 +4,8 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -25,13 +27,19 @@ public class Payment {
 
     @Column(name = "total_amount")
     @NotEmpty
-    private Long totalAmount;
+    @Min(value = 0)
+    @Max(value = Long.MAX_VALUE)
+    private long totalAmount;
 
     @Column(name = "principal_amount")
     @NotEmpty
-    private Long principalAmount;
+    @Min(value = 0)
+    @Max(value = Long.MAX_VALUE)
+    private long principalAmount;
 
     @Column(name = "interest_amount")
     @NotEmpty
-    private Long interestAmount;
+    @Min(value = 0)
+    @Max(value = Long.MAX_VALUE)
+    private long interestAmount;
 }

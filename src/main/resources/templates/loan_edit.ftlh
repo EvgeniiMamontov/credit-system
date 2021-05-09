@@ -14,9 +14,9 @@
       <label for="name">Name:</label><br>
             <input type="text" id="name" name="name" required minlength="5" maxlength="50" value="${loan.name}"><br>
             <label for="limit">Limit:</label><br>
-            <input type="text" id="limit" name="limit" required maxlength="20" value="${loan.limit?c}"><br>
+            <input type="text" id="limit" name="limit" required title="Enter 1 to 20 digits" pattern="[0-9]{1,20}" value="${loan.limit?c}"><br>
             <label for="interest">Interest:</label><br>
-            <input type="text" id="interest" name="interest" required maxlength="2" value="${loan.interestRate?c}"><br>
+            <input type="text" id="interest" name="interest" required pattern="[0-9]{1,2}" value="${loan.interestRate?c}"><br>
             <input type="submit" value="Update">
     </form>
   </body>

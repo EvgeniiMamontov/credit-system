@@ -12,9 +12,9 @@
       <label for="name">Name:</label><br>
       <input type="text" id="name" name="name" required minlength="5" maxlength="50"><br>
       <label for="limit">Limit:</label><br>
-      <input type="text" id="limit" name="limit" required maxlength="20"><br>
+      <input type="text" id="limit" name="limit" required title="Enter 1 to 20 digits" pattern="[0-9]{1,20}"><br>
       <label for="interest">Interest:</label><br>
-      <input type="text" id="interest" name="interest" required maxlength="2"><br>
+      <input type="text" id="interest" name="interest" pattern="[0-9]{1,2}"><br>
       <input type="submit" value="Create">
     </form>
   </body>
