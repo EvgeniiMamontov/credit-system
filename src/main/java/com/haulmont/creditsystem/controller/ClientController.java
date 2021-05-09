@@ -19,12 +19,12 @@ public class ClientController {
     @GetMapping("")
     public String getAllClients(Model model) {
         model.addAttribute("clients", clientService.getAllClients() );
-        return "clients";
+        return "clients/clients";
     }
 
     @GetMapping("/new")
     public String newClient() {
-        return "client_new";
+        return "clients/client_new";
     }
 
     @PostMapping("/new")
@@ -39,7 +39,7 @@ public class ClientController {
     @GetMapping("/{uuid}/edit")
     public String editClient(@PathVariable UUID uuid, Model model) {
         model.addAttribute("client", clientService.getByUuid(uuid));
-        return "client_edit";
+        return "clients/client_edit";
     }
 
     @PostMapping("/{uuid}/edit")
@@ -56,5 +56,11 @@ public class ClientController {
     public String deleteClient(@PathVariable UUID uuid) {
         clientService.delete(uuid);
         return "redirect:/clients/";
+    }
+
+    @GetMapping("/{uuid}")
+    public String getClient(@PathVariable UUID uuid, Model model) {
+        model.addAttribute("client", clientService.getByUuid(uuid) );
+        return "clients/client";
     }
 }

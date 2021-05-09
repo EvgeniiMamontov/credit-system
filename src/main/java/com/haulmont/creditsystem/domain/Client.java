@@ -12,7 +12,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -46,7 +47,7 @@ public class Client implements Serializable {
     private String passportNumber;
 
     @ManyToMany
-    Set<Bank> banks;
+    private Set<Bank> banks;
 
     public Client(@NonNull String fullName, String phoneNumber, String email, String passportNumber) {
         this.fullName = fullName;

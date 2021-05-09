@@ -24,7 +24,7 @@
          <span> ${bank.uuid} </span>
       </td>
       <td>
-         <span> ${bank.name} </span>
+         <a href="/banks/${bank.uuid}">${bank.name}</a>
       </td>
       <td>
          <a href="/banks/${bank.uuid}/edit">Edit</a>

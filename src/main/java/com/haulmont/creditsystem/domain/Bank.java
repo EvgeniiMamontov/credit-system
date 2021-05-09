@@ -1,15 +1,14 @@
 package com.haulmont.creditsystem.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.Set;
 import java.util.UUID;
 
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -26,8 +25,11 @@ public class Bank {
     @NotEmpty
     private String name;
 
-    @ManyToMany
-    Set<Client> clients;
+    @OneToMany(mappedBy="bank", fetch = FetchType.LAZY)
+    private Set<Loan> loans;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<Client> clients;
 
     public Bank(String name) {
         this.name = name;

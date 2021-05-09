@@ -24,13 +24,13 @@ public class LoanController {
     @GetMapping("")
     public String getAllLoans(Model model) {
         model.addAttribute("loans", loanService.getAllLoans() );
-        return "loans";
+        return "loans/loans";
     }
 
     @GetMapping("/new")
     public String newLoan(Model model) {
         model.addAttribute("banks", bankService.getAllBanks());
-        return "loan_new";
+        return "loans/loan_new";
     }
 
     @PostMapping("/new")
@@ -47,7 +47,7 @@ public class LoanController {
     public String editLoan(@PathVariable UUID uuid, Model model) {
         model.addAttribute("banks", bankService.getAllBanks());
         model.addAttribute("loan", loanService.getByUuid(uuid));
-        return "loan_edit";
+        return "loans/loan_edit";
     }
 
     @PostMapping("/{uuid}/edit")

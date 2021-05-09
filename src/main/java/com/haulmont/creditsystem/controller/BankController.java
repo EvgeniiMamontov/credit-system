@@ -19,12 +19,12 @@ public class BankController {
     @GetMapping("")
     public String getAllBanks(Model model) {
         model.addAttribute("banks", bankService.getAllBanks() );
-        return "banks";
+        return "banks/banks";
     }
 
     @GetMapping("/new")
     public String newBank() {
-        return "bank_new";
+        return "banks/bank_new";
     }
 
     @PostMapping("/new")
@@ -36,13 +36,13 @@ public class BankController {
     @GetMapping("/{uuid}/edit")
     public String editBank(@PathVariable UUID uuid, Model model) {
         model.addAttribute("bank", bankService.getByUuid(uuid));
-        return "bank_edit";
+        return "banks/bank_edit";
     }
 
     @PostMapping("/{uuid}/edit")
     public String updateBank(@PathVariable(name = "uuid") UUID uuid,
                              @RequestParam(name = "name") String name) {
-        bankService.save(new Bank(uuid, name, null));
+        bankService.save(new Bank(uuid, name, null, null));
         return "redirect:/banks/";
     }
 
@@ -52,4 +52,9 @@ public class BankController {
         return "redirect:/banks/";
     }
 
+    @GetMapping("/{uuid}")
+    public String getBank(@PathVariable UUID uuid, Model model) {
+        model.addAttribute("bank", bankService.getByUuid(uuid) );
+        return "banks/bank";
+    }
 }

@@ -27,7 +27,7 @@
          <span> ${client.uuid} </span>
       </td>
       <td>
-         <span> ${client.fullName} </span>
+         <a href="/clients/${client.uuid}">${client.fullName}</a>
       </td>
       <td>
           <span> ${client.phoneNumber} </span>

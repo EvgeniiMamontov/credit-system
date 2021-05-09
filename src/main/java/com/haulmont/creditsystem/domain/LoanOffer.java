@@ -1,11 +1,14 @@
 package com.haulmont.creditsystem.domain;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.UUID;
 
-@Data
+@Setter
+@Getter
 @Entity
 @Table(name="loan_offer")
 public class LoanOffer {
