@@ -28,5 +28,8 @@
   <br>
      ${client.passportNumber}
   <br><br>
+  <form method="get" action="/client/${client.uuid}/newoffer">
+     <input type="submit" value="Create loan offer">
+  </form>
   </body>
 </html>

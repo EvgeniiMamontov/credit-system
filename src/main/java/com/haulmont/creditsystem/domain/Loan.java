@@ -40,7 +40,7 @@ public class Loan {
     //@DecimalMax("99.00")
     private int interestRate;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "bank_uuid")
     private Bank bank;
 

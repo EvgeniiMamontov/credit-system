@@ -22,7 +22,6 @@ public class Payment {
 
     @Column(name = "date")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @NotEmpty
     private LocalDate date;
 
     @Column(name = "total_amount")

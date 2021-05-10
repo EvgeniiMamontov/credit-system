@@ -1,12 +1,20 @@
 package com.haulmont.creditsystem.domain;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import java.time.LocalDate;
+import java.util.Set;
 import java.util.UUID;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Setter
 @Getter
 @Entity
@@ -19,14 +27,33 @@ public class LoanOffer {
     @Column(name = "loan_offer_uuid")
     private UUID uuid;
 
-    //клиент
-    //кредит
-    //сумма кредита
-    //дата первого платежа
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "client_uuid")
+    private Client client;
 
-    //график платежей?????
-        //дата платежа
-        //сумма платежа
-        //сумма гашения тела кредита
-        //сумма гашения процентов
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "loan_uuid")
+    private Loan loan;
+
+    @Column(name = "amount")
+    @Min(value = 0)
+    @Max(value = Long.MAX_VALUE)
+    private long amount;
+
+    @Column(name = "loan_term")
+    @Min(value = 1)
+    @Max(value = 240)
+    private int loanTerm;
+
+    @Column(name = "first_payment_date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate date;
+
+    public LoanOffer(Client client, Loan loan, long amount, int loanTerm, LocalDate date) {
+        this.client = client;
+        this.loan = loan;
+        this.amount = amount;
+        this.loanTerm = loanTerm;
+        this.date = date;
+    }
 }

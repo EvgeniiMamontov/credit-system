@@ -12,7 +12,7 @@
       <label for="name">ID:</label><br>
       <input type="text" id="uuid" name="uuid" required disabled value="${bank.uuid}"><br>
       <label for="name">Name:</label><br>
-      <input type="text" id="name" name="name" required minlength="5" maxlength="50" value="${bank.name}"><br>
+      <input type="text" id="name" name="name" required minlength="3" maxlength="50" value="${bank.name}"><br>
       <label for="limit">Limit:</label><br>
       <input type="submit" value="Update">
     </form>

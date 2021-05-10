@@ -10,7 +10,7 @@
       <br>
     <form method="post">
       <label for="name">Name:</label><br>
-      <input type="text" id="name" name="name" required minlength="5" maxlength="50"><br>
+      <input type="text" id="name" name="name" required minlength="3" maxlength="50"><br>
       <input type="submit" value="Create">
     </form>
   </body>
