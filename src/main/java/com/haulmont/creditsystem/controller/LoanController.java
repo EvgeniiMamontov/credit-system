@@ -4,7 +4,6 @@ import com.haulmont.creditsystem.domain.Bank;
 import com.haulmont.creditsystem.domain.Loan;
 import com.haulmont.creditsystem.service.BankService;
 import com.haulmont.creditsystem.service.LoanService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,13 +14,15 @@ import java.util.UUID;
 @RequestMapping("/loans")
 public class LoanController {
 
-    @Autowired
     private LoanService loanService;
-
-    @Autowired
     private BankService bankService;
 
-    @GetMapping("")
+    public LoanController(LoanService loanService, BankService bankService) {
+        this.loanService = loanService;
+        this.bankService = bankService;
+    }
+
+    @GetMapping
     public String getAllLoans(Model model) {
         model.addAttribute("loans", loanService.getAllLoans() );
         return "loans/loans";

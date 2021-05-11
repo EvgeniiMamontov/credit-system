@@ -7,7 +7,6 @@ import com.haulmont.creditsystem.domain.Payment;
 import com.haulmont.creditsystem.service.ClientService;
 import com.haulmont.creditsystem.service.LoanOfferService;
 import com.haulmont.creditsystem.service.LoanService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,14 +19,15 @@ import java.util.UUID;
 @Controller
 public class LoanOfferController {
 
-    @Autowired
     private ClientService clientService;
-
-    @Autowired
     private LoanService loanService;
-
-    @Autowired
     private LoanOfferService loanOfferService;
+
+    public LoanOfferController(ClientService clientService, LoanService loanService, LoanOfferService loanOfferService) {
+        this.clientService = clientService;
+        this.loanService = loanService;
+        this.loanOfferService = loanOfferService;
+    }
 
     @GetMapping("loanoffers")
     public String getAllLoanOffers(Model model) {

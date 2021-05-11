@@ -1,10 +1,8 @@
 package com.haulmont.creditsystem.service.impl;
 
-import com.haulmont.creditsystem.domain.Client;
 import com.haulmont.creditsystem.domain.Loan;
 import com.haulmont.creditsystem.repository.LoanRepository;
 import com.haulmont.creditsystem.service.LoanService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -14,8 +12,11 @@ import java.util.UUID;
 @Service
 public class LoanServiceImpl implements LoanService {
 
-    @Autowired
     private LoanRepository loanRepository;
+
+    public LoanServiceImpl(LoanRepository loanRepository) {
+        this.loanRepository = loanRepository;
+    }
 
     @Override
     public List<Loan> getAllLoans() {

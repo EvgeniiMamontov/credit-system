@@ -13,8 +13,11 @@ import java.util.UUID;
 @RequestMapping("/banks")
 public class BankController {
 
-    @Autowired
     private BankService bankService;
+
+    public BankController(BankService bankService) {
+        this.bankService = bankService;
+    }
 
     @GetMapping
     public String getAllBanks(Model model) {

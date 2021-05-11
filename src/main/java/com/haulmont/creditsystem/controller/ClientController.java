@@ -2,7 +2,6 @@ package com.haulmont.creditsystem.controller;
 
 import com.haulmont.creditsystem.domain.Client;
 import com.haulmont.creditsystem.service.ClientService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +12,13 @@ import java.util.UUID;
 @RequestMapping("/clients")
 public class ClientController {
 
-    @Autowired
     private ClientService clientService;
 
-    @GetMapping("")
+    public ClientController(ClientService clientService) {
+        this.clientService = clientService;
+    }
+
+    @GetMapping
     public String getAllClients(Model model) {
         model.addAttribute("clients", clientService.getAllClients() );
         return "clients/clients";

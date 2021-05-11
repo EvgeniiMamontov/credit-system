@@ -8,7 +8,7 @@
   <body>
   <H3><a href="/">Edit Bank</a></H3>
     <br>
-    <form method="post">
+    <form method="put">
       <label for="name">ID:</label><br>
       <input type="text" id="uuid" name="uuid" required disabled value="${bank.uuid}"><br>
       <label for="name">Name:</label><br>

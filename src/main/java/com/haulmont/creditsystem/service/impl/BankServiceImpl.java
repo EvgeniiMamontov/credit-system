@@ -3,7 +3,6 @@ package com.haulmont.creditsystem.service.impl;
 import com.haulmont.creditsystem.domain.Bank;
 import com.haulmont.creditsystem.repository.BankRepository;
 import com.haulmont.creditsystem.service.BankService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -13,8 +12,11 @@ import java.util.UUID;
 @Service
 public class BankServiceImpl implements BankService {
 
-    @Autowired
     private BankRepository bankRepository;
+
+    public BankServiceImpl(BankRepository bankRepository) {
+        this.bankRepository = bankRepository;
+    }
 
     @Override
     public List<Bank> getAllBanks() {

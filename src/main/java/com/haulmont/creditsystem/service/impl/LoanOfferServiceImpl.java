@@ -5,7 +5,6 @@ import com.haulmont.creditsystem.domain.LoanOffer;
 import com.haulmont.creditsystem.domain.Payment;
 import com.haulmont.creditsystem.repository.LoanOfferRepository;
 import com.haulmont.creditsystem.service.LoanOfferService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -15,8 +14,11 @@ import java.util.*;
 @Service
 public class LoanOfferServiceImpl implements LoanOfferService {
 
-    @Autowired
     private LoanOfferRepository loanOfferRepository;
+
+    public LoanOfferServiceImpl(LoanOfferRepository loanOfferRepository) {
+        this.loanOfferRepository = loanOfferRepository;
+    }
 
     @Override
     public List<LoanOffer> getAllLoanOffers() {
