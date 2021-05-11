@@ -10,7 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -49,11 +49,15 @@ public class LoanOffer {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
 
-    public LoanOffer(Client client, Loan loan, long amount, int loanTerm, LocalDate date) {
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Payment> paymentSchedule;
+
+    public LoanOffer(Client client, Loan loan, long amount, int loanTerm, LocalDate date, List<Payment> paymentSchedule) {
         this.client = client;
         this.loan = loan;
         this.amount = amount;
         this.loanTerm = loanTerm;
         this.date = date;
+        this.paymentSchedule = paymentSchedule;
     }
 }

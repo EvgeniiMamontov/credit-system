@@ -16,7 +16,7 @@ public class BankController {
     @Autowired
     private BankService bankService;
 
-    @GetMapping("")
+    @GetMapping
     public String getAllBanks(Model model) {
         model.addAttribute("banks", bankService.getAllBanks() );
         return "banks/banks";

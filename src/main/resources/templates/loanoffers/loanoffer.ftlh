@@ -32,5 +32,14 @@
   <br>
     ${loanoffer.loan.interestRate}%
   <br><br>
+    Payment schedule:
+  <br>
+    <#if loanoffer.paymentSchedule?? && (loanoffer.paymentSchedule?size > 0)>
+      <#list loanoffer.paymentSchedule as payment>
+        ${payment.date} | ${payment.paymentAmount} | ${payment.principalAmount} | ${payment.interestAmount} <br>
+      </#list>
+    <#else>
+      None
+    </#if>
   </body>
 </html>

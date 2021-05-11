@@ -3,6 +3,7 @@ package com.haulmont.creditsystem.controller;
 import com.haulmont.creditsystem.domain.Client;
 import com.haulmont.creditsystem.domain.Loan;
 import com.haulmont.creditsystem.domain.LoanOffer;
+import com.haulmont.creditsystem.domain.Payment;
 import com.haulmont.creditsystem.service.ClientService;
 import com.haulmont.creditsystem.service.LoanOfferService;
 import com.haulmont.creditsystem.service.LoanService;
@@ -13,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -48,7 +50,8 @@ public class LoanOfferController {
                           @RequestParam(name = "date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate firstPaymentDate) {
         Client client = clientService.getByUuid(clientUuid);
         Loan loan = loanService.getByUuid(loanUuid);
-        loanOfferService.save(new LoanOffer(client, loan, summ, loanTerm, firstPaymentDate));
+        List<Payment> paymentSchedule = loanOfferService.generatePaymentSchedule(loan, summ, loanTerm, firstPaymentDate);
+        loanOfferService.save(new LoanOffer(client, loan, summ, loanTerm, firstPaymentDate, paymentSchedule));
         return "redirect:/loanoffers";
     }
 
@@ -70,8 +73,9 @@ public class LoanOfferController {
                                   @RequestParam(name = "date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate firstPaymentDate) {
         Client client = clientService.getByUuid(clientUuid);
         Loan loan = loanService.getByUuid(loanUuid);
-        loanOfferService.save(new LoanOffer(uuid, client, loan, summ, loanTerm, firstPaymentDate));
-        return "redirect:/loanoffers/";
+        List<Payment> paymentSchedule = loanOfferService.generatePaymentSchedule(loan, summ, loanTerm, firstPaymentDate);
+        loanOfferService.save(new LoanOffer(uuid, client, loan, summ, loanTerm, firstPaymentDate, paymentSchedule));
+        return "redirect:/loanoffers";
     }
 
     @GetMapping("loanoffers/{uuid}/delete")
