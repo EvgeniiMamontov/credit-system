@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -48,5 +49,18 @@ public class Loan {
         this.limit = limit;
         this.interestRate = interestRate;
         this.bank = bank;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Loan loan = (Loan) o;
+        return Objects.equals(uuid, loan.uuid);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(uuid);
     }
 }

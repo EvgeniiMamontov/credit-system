@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.time.LocalDate;
+import java.util.Objects;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -51,5 +52,18 @@ public class Payment {
         this.principalAmount = principalAmount;
         this.interestAmount = interestAmount;
         this.loanOffer = loanOffer;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Payment payment = (Payment) o;
+        return Objects.equals(uuid, payment.uuid);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(uuid);
     }
 }

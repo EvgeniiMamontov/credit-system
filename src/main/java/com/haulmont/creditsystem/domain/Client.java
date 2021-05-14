@@ -5,6 +5,7 @@ import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import javax.validation.constraints.Digits;
@@ -54,5 +55,18 @@ public class Client implements Serializable {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.passportNumber = passportNumber;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Client client = (Client) o;
+        return Objects.equals(uuid, client.uuid);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(uuid);
     }
 }
