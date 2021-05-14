@@ -1,6 +1,8 @@
 package com.haulmont.creditsystem.controller;
 
+import com.haulmont.creditsystem.domain.Bank;
 import com.haulmont.creditsystem.domain.Client;
+import com.haulmont.creditsystem.domain.Loan;
 import com.haulmont.creditsystem.service.ClientService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,31 +40,42 @@ public class ClientController {
         return "redirect:";
     }
 
-    @GetMapping("/{uuid}/edit")
-    public String editClient(@PathVariable UUID uuid, Model model) {
-        model.addAttribute("client", clientService.getByUuid(uuid));
+    @GetMapping("/{client}/edit")
+    public String editClient(@PathVariable Client client, Model model) {
+        model.addAttribute("client", client);
         return "clients/client_edit";
     }
 
     @PostMapping("/{uuid}/edit")
-    public String updateClient(@PathVariable(name = "uuid") UUID uuid,
+    public String updateClient(@RequestParam(name = "uuid") UUID uuid,
                                @RequestParam(name = "name") String fullName,
                                @RequestParam(name = "phone") String phoneNumber,
                                @RequestParam(name = "email") String email,
                                @RequestParam(name = "passport") String passportNumber) {
-        clientService.save(new Client(uuid, fullName, phoneNumber, email, passportNumber, null));
+        Client client = clientService.getByUuid(uuid);
+        client.setFullName(fullName);
+        client.setPhoneNumber(phoneNumber);
+        client.setEmail(email);
+        client.setPassportNumber(passportNumber);
+        clientService.save(client);
         return "redirect:/clients/";
     }
 
-    @GetMapping("/{uuid}/delete")
-    public String deleteClient(@PathVariable UUID uuid) {
-        clientService.delete(uuid);
-        return "redirect:/clients/";
-    }
-
-    @GetMapping("/{uuid}")
-    public String getClient(@PathVariable UUID uuid, Model model) {
-        model.addAttribute("client", clientService.getByUuid(uuid) );
+    @GetMapping("/{client}")
+    public String getClient(@PathVariable Client client, Model model) {
+        model.addAttribute("client", client );
         return "clients/client";
+    }
+
+    @GetMapping("/{client}/delete")
+    public String deleteClient(@PathVariable Client client, Model model) {
+        model.addAttribute("client", client);
+        return "/clients/client_delete";
+    }
+
+    @PostMapping("/{client}/delete")
+    public String deleteLoan(@PathVariable Client client) {
+        clientService.delete(client);
+        return "redirect:/clients/";
     }
 }

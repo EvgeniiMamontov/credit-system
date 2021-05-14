@@ -25,8 +25,8 @@ public class LoanServiceImpl implements LoanService {
 
     @Override
     @Transactional
-    public void save(Loan loan) {
-        loanRepository.save(loan);
+    public Loan save(Loan loan) {
+       return loanRepository.save(loan);
     }
 
     @Override
@@ -36,7 +36,8 @@ public class LoanServiceImpl implements LoanService {
 
     @Override
     @Transactional
-    public void delete(UUID uuid) {
-        loanRepository.deleteByUuid(uuid);
+    public void delete(Loan loan) {
+        System.out.println(loan);
+        loanRepository.delete(loan);
     }
 }

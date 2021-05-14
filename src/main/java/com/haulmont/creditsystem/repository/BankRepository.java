@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface BankRepository extends JpaRepository<Bank, Long> {
+public interface BankRepository extends JpaRepository<Bank, UUID> {
     Bank findByUuid(UUID uuid);
-    void deleteByUuid(UUID uuid);
 }

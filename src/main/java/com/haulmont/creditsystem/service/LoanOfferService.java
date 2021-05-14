@@ -10,8 +10,8 @@ import java.util.UUID;
 
 public interface LoanOfferService {
     List<LoanOffer> getAllLoanOffers();
-    void save(LoanOffer loanOffer);
+    LoanOffer save(LoanOffer loanOffer);
     LoanOffer getByUuid(UUID uuid);
-    void delete(UUID uuid);
-    List<Payment> generatePaymentSchedule(Loan loan, long summ, int loanTerm, LocalDate firstPaymentDate);
+    void delete(LoanOffer loanOffer);
+    List<Payment> generatePaymentSchedule(Loan loan, long summ, int loanTerm, LocalDate firstPaymentDate, LoanOffer loanOffer);
 }

@@ -9,6 +9,6 @@ public interface BankService {
     List<Bank> getAllBanks();
     void save(Bank bank);
     Bank getByUuid(UUID uuid);
-    void delete(UUID uuid);
+    void delete(Bank bank);
 }
 

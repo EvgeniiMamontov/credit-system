@@ -22,6 +22,12 @@ public class LoanController {
         this.bankService = bankService;
     }
 
+    @GetMapping("/{loan}")
+    public String getLoan(@PathVariable Loan loan, Model model) {
+        model.addAttribute("loan", loan );
+        return "loans/loan";
+    }
+
     @GetMapping
     public String getAllLoans(Model model) {
         model.addAttribute("loans", loanService.getAllLoans() );
@@ -37,35 +43,44 @@ public class LoanController {
     @PostMapping("/new")
     public String addLoan(@RequestParam(name = "name") String name,
                           @RequestParam(name = "limit") long limit,
-                          @RequestParam(name = "interest") int interest,
+                          @RequestParam(name = "interest") float interest,
                           @RequestParam(name = "bank") UUID bankUuid) {
         Bank bank = bankService.getByUuid(bankUuid);
-        loanService.save(new Loan(name, limit, interest,bank));
+        loanService.save(new Loan(name, limit * 100, interest / 100, bank));
         return "redirect:";
     }
 
-    @GetMapping("/{uuid}/edit")
-    public String editLoan(@PathVariable UUID uuid, Model model) {
+    @GetMapping("/{loan}/edit")
+    public String editLoan(@PathVariable Loan loan, Model model) {
         model.addAttribute("banks", bankService.getAllBanks());
-        model.addAttribute("loan", loanService.getByUuid(uuid));
+        model.addAttribute("loan", loan);
         return "loans/loan_edit";
     }
 
     @PostMapping("/{uuid}/edit")
-    public String updateLoan(@PathVariable(name = "uuid") UUID uuid,
+    public String updateLoan(@RequestParam(name = "uuid") UUID uuid,
                              @RequestParam(name = "name") String name,
                              @RequestParam(name = "limit") long limit,
-                             @RequestParam(name = "interest") int interest,
-                             @RequestParam(name = "bank") UUID bankUuid) {
-        Bank bank = bankService.getByUuid(bankUuid);
-        loanService.save(new Loan(uuid, name, limit, interest, bank));
+                             @RequestParam(name = "interest") float interest,
+                             @RequestParam(name = "bank") Bank bank) {
+        Loan loan = loanService.getByUuid(uuid);
+        loan.setName(name);
+        loan.setLimit(limit * 100);
+        loan.setInterestRate(interest / 100);
+        loan.setBank(bank);
+        loanService.save(loan);
         return "redirect:/loans/";
     }
 
-    @GetMapping("/{uuid}/delete")
-    public String deleteLoan(@PathVariable UUID uuid) {
-        loanService.delete(uuid);
-        return "redirect:/loans/";
+    @GetMapping("/{loan}/delete")
+    public String deleteLoan(@PathVariable Loan loan, Model model) {
+        model.addAttribute("loan", loan);
+        return "/loans/loan_delete";
     }
 
+    @PostMapping("/{loan}/delete")
+    public String deleteLoan(@PathVariable Loan loan) {
+        loanService.delete(loan);
+        return "redirect:/loans/";
+    }
 }

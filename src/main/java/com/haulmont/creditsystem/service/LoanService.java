@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public interface LoanService {
     List<Loan> getAllLoans();
-    void save(Loan loan);
+    Loan save(Loan loan);
     Loan getByUuid(UUID uuid);
-    void delete(UUID uuid);
+    void delete(Loan loan);
 }

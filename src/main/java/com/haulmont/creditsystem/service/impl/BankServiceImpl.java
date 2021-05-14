@@ -36,7 +36,7 @@ public class BankServiceImpl implements BankService {
 
     @Override
     @Transactional
-    public void delete(UUID uuid) {
-        bankRepository.deleteByUuid(uuid);
+    public void delete(Bank bank) {
+        bankRepository.delete(bank);
     }
 }

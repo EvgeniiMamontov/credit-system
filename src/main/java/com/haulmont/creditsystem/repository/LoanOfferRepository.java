@@ -5,7 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
 
-public interface LoanOfferRepository extends JpaRepository<LoanOffer, Long> {
+public interface LoanOfferRepository extends JpaRepository<LoanOffer, UUID> {
     LoanOffer findByUuid(UUID uuid);
-    void deleteByUuid(UUID uuid);
 }

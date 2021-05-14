@@ -9,5 +9,5 @@ public interface ClientService {
     List<Client> getAllClients();
     void save(Client client);
     Client getByUuid(UUID uuid);
-    void delete(UUID uuid);
+    void delete(Client client);
 }

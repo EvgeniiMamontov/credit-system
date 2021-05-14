@@ -27,8 +27,8 @@ public class LoanOfferServiceImpl implements LoanOfferService {
 
     @Override
     @Transactional
-    public void save(LoanOffer loanOffer) {
-        loanOfferRepository.save(loanOffer);
+    public LoanOffer save(LoanOffer loanOffer) {
+        return loanOfferRepository.save(loanOffer);
     }
 
     @Override
@@ -38,25 +38,28 @@ public class LoanOfferServiceImpl implements LoanOfferService {
 
     @Override
     @Transactional
-    public void delete(UUID uuid) {
-        loanOfferRepository.deleteByUuid(uuid);
+    public void delete(LoanOffer loanOffer) {
+        loanOfferRepository.delete(loanOffer);
     }
 
     @Override
-    public List<Payment> generatePaymentSchedule(Loan loan, long summ, int loanTerm, LocalDate firstPaymentDate) {
+    public List<Payment> generatePaymentSchedule(Loan loan, long summ, int loanTerm, LocalDate firstPaymentDate, LoanOffer loanOffer) {
         List<Payment> result = new ArrayList<>();
-        double interest = loan.getInterestRate();
-        double p = interest/12/100; // percentage of interest rate (month)
+        float interest = loan.getInterestRate();
+        float p = interest / 12; // percentage of interest rate (month)
         long monthlyPayment = (long) Math.floor(summ * (p + (p / (Math.pow((1 + p), loanTerm) - 1))));
+        long interestTotal = 0;
 
         for (int i = 0; i < loanTerm; i++) {
             LocalDate date = firstPaymentDate.plusMonths(i);
             long interestAmount = (long) Math.floor(summ * p);
+            interestTotal += interestAmount;
             long principalAmount = monthlyPayment - interestAmount;
             long balanceOwed = summ - principalAmount;
-            result.add(new Payment(date, monthlyPayment, principalAmount, interestAmount));
+            result.add(new Payment(date, monthlyPayment, principalAmount, interestAmount, loanOffer));
             summ = balanceOwed;
         }
+        loanOffer.setInterestTotal(interestTotal);
         return result;
     }
 }
