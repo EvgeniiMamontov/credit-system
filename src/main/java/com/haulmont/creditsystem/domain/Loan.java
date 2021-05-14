@@ -3,10 +3,8 @@ package com.haulmont.creditsystem.domain;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
+import java.util.Set;
 import java.util.UUID;
 
 @Setter
@@ -29,22 +27,23 @@ public class Loan {
     private String name;
 
     @Column(name = "loan_limit")
-    @Min(value = 0)
+    @Min(value = 1)
     @Max(value = Long.MAX_VALUE)
     private long limit;
 
     @Column(name = "interest_rate")
-    @Min(value = 0)
-    @Max(value = 99)
-    //@DecimalMin("0.00")
-    //@DecimalMax("99.00")
-    private int interestRate;
+    @DecimalMin("0")
+    @DecimalMax("100")
+    private float interestRate;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bank_uuid")
     private Bank bank;
 
-    public Loan(String name, long limit, int interestRate, Bank bank) {
+    @OneToMany(mappedBy = "loan", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<LoanOffer> loanOffers;
+
+    public Loan(String name, long limit, float interestRate, Bank bank) {
         this.name = name;
         this.limit = limit;
         this.interestRate = interestRate;

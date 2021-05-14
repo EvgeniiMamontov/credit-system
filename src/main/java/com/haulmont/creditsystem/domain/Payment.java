@@ -41,10 +41,15 @@ public class Payment {
     @Max(value = Long.MAX_VALUE)
     private long interestAmount;
 
-    public Payment(LocalDate date, long paymentAmount, long principalAmount, long interestAmount) {
+    @ManyToOne
+    @JoinColumn(name = "loan_offer_uuid")
+    private LoanOffer loanOffer;
+
+    public Payment(LocalDate date, long paymentAmount, long principalAmount, long interestAmount, LoanOffer loanOffer) {
         this.date = date;
         this.paymentAmount = paymentAmount;
         this.principalAmount = principalAmount;
         this.interestAmount = interestAmount;
+        this.loanOffer = loanOffer;
     }
 }

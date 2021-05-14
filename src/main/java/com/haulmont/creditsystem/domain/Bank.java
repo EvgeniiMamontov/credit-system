@@ -25,10 +25,15 @@ public class Bank {
     @NotEmpty
     private String name;
 
-    @OneToMany(mappedBy="bank", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy="bank", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Loan> loans;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
+    @JoinTable(
+            name = "bank_client",
+            joinColumns = { @JoinColumn(name = "bank_uuid") },
+            inverseJoinColumns = { @JoinColumn(name = "client_uuid") }
+    )
     private Set<Client> clients;
 
     public Bank(String name) {

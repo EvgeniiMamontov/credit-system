@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -27,18 +29,23 @@ public class LoanOffer {
     @Column(name = "loan_offer_uuid")
     private UUID uuid;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_uuid")
     private Client client;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "loan_uuid")
     private Loan loan;
 
     @Column(name = "amount")
     @Min(value = 0)
-    @Max(value = Long.MAX_VALUE)
+    @Max(value = 999999999)
     private long amount;
+
+    @Column(name = "interest_total")
+    @Min(value = 0)
+    @Max(value = 999999999)
+    private long interestTotal;
 
     @Column(name = "loan_term")
     @Min(value = 1)
@@ -49,15 +56,23 @@ public class LoanOffer {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "loanOffer", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Payment> paymentSchedule;
 
-    public LoanOffer(Client client, Loan loan, long amount, int loanTerm, LocalDate date, List<Payment> paymentSchedule) {
+    public LoanOffer(Client client, Loan loan, long amount, int loanTerm, LocalDate date) {
         this.client = client;
         this.loan = loan;
         this.amount = amount;
         this.loanTerm = loanTerm;
         this.date = date;
-        this.paymentSchedule = paymentSchedule;
+    }
+
+    public LoanOffer(UUID uuid, Client client, Loan loan, long amount, int loanTerm, LocalDate date) {
+        this.uuid = uuid;
+        this.client = client;
+        this.loan = loan;
+        this.amount = amount;
+        this.loanTerm = loanTerm;
+        this.date = date;
     }
 }

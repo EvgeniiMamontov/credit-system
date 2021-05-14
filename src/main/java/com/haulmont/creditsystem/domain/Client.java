@@ -28,7 +28,7 @@ public class Client implements Serializable {
 
     @Column(name = "full_name")
     @NotEmpty
-    @Size(min = 5, max = 50)
+    @Size(min = 5, max = 100)
     private String fullName;
 
     @Column(name = "phone_number")
@@ -43,11 +43,11 @@ public class Client implements Serializable {
 
     @Column(name = "passport_number")
     @NotEmpty
-    @Size(min = 5, max = 50)
+    @Size(min = 5, max = 20)
     private String passportNumber;
 
-    @ManyToMany
-    private Set<Bank> banks;
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<LoanOffer> loanOffers;
 
     public Client(@NonNull String fullName, String phoneNumber, String email, String passportNumber) {
         this.fullName = fullName;
