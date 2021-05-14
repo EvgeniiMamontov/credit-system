@@ -1,25 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Edit client</title>
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-  </head>
-  <body>
-  <H3><a href="/">Edit Client</a></H3>
-    <br>
-    <form method="post">
-      <label for="name">ID:</label><br>
-      <input type="text" id="uuid" name="uuid" required disabled value="${client.uuid}"><br>
-      <label for="name">Full name:</label><br>
-      <input type="text" id="name" name="name" required minlength="5" maxlength="50" value="${client.fullName}"><br>
-      <label for="phone">Phone number:</label><br>
-      <input type="tel" id="phone" name="phone" required title="Enter 5 to 15 digits" pattern="[0-9]{5,15}" value="${client.phoneNumber}"><br>
-      <label for="email">Email:</label><br>
-      <input type="email" id="email" name="email" required maxlength="50" value="${client.email}"><br>
-      <label for="passport">Passport number:</label><br>
-      <input type="text" id="passport" name="passport" required minlength="5" maxlength="20" value="${client.passportNumber}"><br>
-      <input type="submit" value="Update">
-    </form>
-  </body>
-</html>
+<#import "/main.ftlh" as main>
+<@main.page>
+<form method="post">
+  <div class="form-group row">
+    <div class="form-group col-3">
+      <input type="hidden" id="uuid" name="uuid" required value="${client.uuid}">
+      <label for="name">Full name</label>
+      <input type="text" class="form-control" id="name" name="name" minlength="5" maxlength="100" value="${client.fullName}" required>
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="form-group col-3">
+      <label for="phone">Phone number</label>
+      <input type="text" class="form-control" id="phone" name="phone" title="Enter 5 to 15 digits" pattern="[0-9]{5,15}" value="${client.phoneNumber}" required>
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="form-group col-3">
+      <label for="email">Email</label>
+      <input type="text" class="form-control" id="email" name="email" maxlength="50" value="${client.email}" required>
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="form-group col-3">
+      <label for="passport">Passport number</label>
+      <input type="text" class="form-control" id="passport" name="passport" minlength="5" maxlength="20" value="${client.passportNumber}" required>
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="form-group col-3">
+      <button type="submit" class="btn btn-primary">Update</button>
+    </div>
+  </div>
+</form>
+</@main.page>

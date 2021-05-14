@@ -1,17 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>New Bank</title>
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-  </head>
-  <body>
-    <H3><a href="/">New Bank</a></H3>
-      <br>
-    <form method="post">
-      <label for="name">Name:</label><br>
-      <input type="text" id="name" name="name" required minlength="3" maxlength="50"><br>
-      <input type="submit" value="Create">
-    </form>
-  </body>
-</html>
+<#import "/main.ftlh" as main>
+<@main.page>
+<form method="post">
+  <div class="form-group row">
+    <div class="form-group col-3">
+      <label for="name">Name</label>
+      <input type="text" class="form-control" id="name" name="name" minlength="3" maxlength="50" required>
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="form-group col-3">
+      <button type="submit" class="btn btn-primary">Create</button>
+    </div>
+  </div>
+</form>
+</@main.page>

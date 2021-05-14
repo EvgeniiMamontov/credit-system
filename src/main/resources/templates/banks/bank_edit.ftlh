@@ -1,20 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Edit Bank</title>
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-  </head>
-  <body>
-  <H3><a href="/">Edit Bank</a></H3>
-    <br>
-    <form method="put">
-      <label for="name">ID:</label><br>
-      <input type="text" id="uuid" name="uuid" required disabled value="${bank.uuid}"><br>
-      <label for="name">Name:</label><br>
-      <input type="text" id="name" name="name" required minlength="3" maxlength="50" value="${bank.name}"><br>
-      <label for="limit">Limit:</label><br>
-      <input type="submit" value="Update">
-    </form>
-  </body>
-</html>
+<#import "/main.ftlh" as main>
+<@main.page>
+<form method="post">
+  <div class="form-group row">
+    <div class="form-group col-3">
+      <input type="hidden" id="uuid" name="uuid" value="${bank.uuid}" required">
+      <label for="name">Name</label>
+      <input type="text" class="form-control" id="name" name="name" minlength="3" maxlength="50" value="${bank.name}" required>
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="form-group col-3">
+      <button type="submit" class="btn btn-primary">Update</button>
+    </div>
+  </div>
+</form>
+</@main.page>

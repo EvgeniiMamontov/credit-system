@@ -1,56 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Loan Offers</title>
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-  </head>
-  <body>
-  <H3><a href="/">Loan Offers</a></H3>
-  <br>
-    <#if loanoffers?? && (loanoffers?size > 0)>
-    <table id="loanoffers" border=1>
+<#import "/main.ftlh" as main>
+<@main.page>
+    <form action="">
+      <button class="btn btn-primary" type="submit" disabled>New loan offer</button>
+    </form>
+    <table class="table container mt-5">
+      <thead>
         <tr>
-          <th>ID</th>
-          <th>Client</th>
-          <th>Loan</th>
-          <th>Amount</th>
-          <th>Loan term</th>
-          <th>First payment date</th>
-          <th>Edit</th>
-          <th>Delete</th>
+          <th scope="col">#</th>
+          <th scope="col">Loan offer</th>
+          <th scope="col">Client</th>
+          <th scope="col">Loan name</th>
+          <th scope="col">Amount</th>
+          <th scope="col">Loan term</th>
+          <th scope="col">Edit</th>
+          <th scope="col">Delete</th>
         </tr>
-    <#list loanoffers as loanoffer>
-    <tr>
-      <td>
-         <a href="/loanoffers/${loanoffer.uuid}">${loanoffer.uuid}</a>
-      </td>
-      <td>
-         <span> ${loanoffer.client.fullName} </span>
-      </td>
-      <td>
-          <span> ${loanoffer.loan.name} </span>
-      </td>
-      <td>
-         <span> ${loanoffer.amount} </span>
-      </td>
-      <td>
-         <span> ${loanoffer.loanTerm} </span>
-      </td>
-      <td>
-         <span> ${loanoffer.date} </span>
-      </td>
-      <td>
-         <a href="/loanoffers/${loanoffer.uuid}/edit">Edit</a>
-      </td>
-      <td>
-         <a href="/loanoffers/${loanoffer.uuid}/delete">Delete</a>
-      </td>
-    </tr>
-    </#list>
+      </thead>
+      <#if loanoffers?? && (loanoffers?size > 0)>
+      <#list loanoffers as loanoffer>
+      <tbody>
+        <tr>
+          <th scope="row">${loanoffer?index + 1}</th>
+          <td><a href="/loanoffers/${loanoffer.uuid}">Loan offer #${loanoffer?index + 1}</a></td>
+          <td>${loanoffer.client.fullName}</td>
+          <td>${loanoffer.loan.name}</td>
+          <td>${(loanoffer.amount / 100)?string.currency}</td>
+          <td>${loanoffer.loanTerm} months</td>
+          <td> <a href="/loanoffers/${loanoffer.uuid}/edit">Edit</a></td>
+          <td><a href="/loanoffers/${loanoffer.uuid}/delete">Delete</a></td>
+        </tr>
+      </tbody>
+      </#list>
     </table>
-    <#else>
-        No Details Available
     </#if>
-  </body>
-</html>
+</@main.page>

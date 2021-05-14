@@ -1,54 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Clients</title>
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-  </head>
-  <body>
-  <H3><a href="/">Clients</a></H3>
-  <br>
-  <a href="/clients/new"> New client </a>
-  <br>
-    <#if clients?? && (clients?size > 0)>
-    <table id="clients" border=1>
+<#import "/main.ftlh" as main>
+<@main.page>
+    <form action="/clients/new">
+      <button class="btn btn-primary" type="submit">New client</button>
+    </form>
+    <table class="table container mt-5">
+      <thead>
         <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Phone number</th>
-          <th>Email</th>
-          <th>Passport number</th>
-          <th>Edit</th>
-          <th>Delete</th>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Phone number</th>
+          <th scope="col">Email</th>
+          <th scope="col">Passport number</th>
+          <th scope="col">Edit</th>
+          <th scope="col">Delete</th>
         </tr>
-    <#list clients as client>
-    <tr>
-      <td>
-         <span> ${client.uuid} </span>
-      </td>
-      <td>
-         <a href="/clients/${client.uuid}">${client.fullName}</a>
-      </td>
-      <td>
-          <span> ${client.phoneNumber} </span>
-      </td>
-      <td>
-         <span> ${client.email} </span>
-      </td>
-      <td>
-         <span> ${client.passportNumber} </span>
-      </td>
-      <td>
-         <a href="/clients/${client.uuid}/edit">Edit</a>
-      </td>
-      <td>
-         <a href="/clients/${client.uuid}/delete">Delete</a>
-      </td>
-    </tr>
-    </#list>
+      </thead>
+      <#if clients?? && (clients?size > 0)>
+      <#list clients as client>
+      <tbody>
+        <tr>
+          <th scope="row">${client?index + 1}</th>
+          <td><a href="/clients/${client.uuid}">${client.fullName}</a></td>
+          <td>${client.phoneNumber}</td>
+          <td>${client.email}</td>
+          <td>${client.passportNumber}</td>
+          <td> <a href="/clients/${client.uuid}/edit">Edit</a></td>
+          <td><a href="/clients/${client.uuid}/delete">Delete</a></td>
+        </tr>
+      </tbody>
+      </#list>
     </table>
-    <#else>
-        No Details Available
     </#if>
-  </body>
-</html>
+</@main.page>

@@ -1,36 +1,58 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>New Loan Offer</title>
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-  </head>
-  <body>
-    <H3><a href="/">New loan offer</a></H3>
-      <br>
-    <form method="post">
-      <label for="loanoffer_uuid">UUID:</label><br>
-      <input type="text" id="loanoffer_uuid" name="loanoffer_uuid" value="${loanoffer.uuid}" required disabled><br>
-      <label for="client_uuid">Client:</label><br>
-      <input type="text" id="client_uuid" name="client_uuid" value="${client.uuid}" required><br>
-      <label for="loans">Loans:</label><br>
-      <select name="loans_uuid" id="loans_uuid" required>
+<#import "/main.ftlh" as main>
+<@main.page>
+<form method="post">
+  <input type="hidden" id="loanoffer_uuid" name="loanoffer_uuid" value="${loanoffer.uuid}" required>
+  <div class="form-group row">
+    <div class="form-group col-3">
+      <label for="client_uuid">Client</label>
+      <select class="form-control" name="client_uuid" id="client_uuid" required>
+        <#if clients??>
+          <#list clients as client>
+            <option
+              <#if currentClient.uuid == client.uuid> selected </#if>
+            value="${client.uuid}">${client.fullName}</option>
+          </#list>
+        </#if>
+      </select>
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="form-group col-3">
+      <label for="loans">Loan</label>
+      <select class="form-control" name="loan_uuid" id="loan_uuid" required>
         <#if loans??>
           <#list loans as loan>
             <option
-                <#if loanoffer.loan.uuid == loan.uuid> selected </#if>
-             value="${loan.uuid}">${loan.name}</option>
+              <#if loanoffer.loan.uuid == loan.uuid> selected </#if>
+            value="${loan.uuid}">${loan.name}</option>
           </#list>
         </#if>
-      </select><br>
-      <label for="summ">Loan amount:</label><br>
-      <input type="text" id="summ" name="summ" pattern="[0-9]{1,20}" value="${loanoffer.amount?c}" required><br>
-      <label for="loan_term">Loan term:</label><br>
-      <input type="text" id="loan_term" name="loan_term" pattern="[0-9]{1,3}" min="1" max="240" value="${loanoffer.loanTerm?c}" required><br>
-      <label for="date" required>First payment date:</label><br>
-      <input type="date" id="date" name="date" value="${loanoffer.date}" required><br>
+      </select>
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="form-group col-3">
+      <label for="summ">Loan amount $</label><br>
+      <input class="form-control" type="text" id="summ" name="summ" pattern="[0-9]{1,20}" value="${(loanoffer.amount / 100)?c}" required>
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="form-group col-3">
+      <label for="loan_term">Loan term (months)</label><br>
+      <input class="form-control" type="text" id="loan_term" name="loan_term" pattern="[0-9]{1,3}" min="1" max="240" value="${loanoffer.loanTerm?c}" required>
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="form-group col-3">
+      <label for="date">First payment date</label><br>
+      <input class="form-control" type="date" id="date" name="date" value="${loanoffer.date}" required>
+    </div>
+  </div>
 
-      <input type="submit" value="Update">
-    </form>
-  </body>
-</html>
+  <div class="form-group row">
+    <div class="form-group col-3">
+      <button type="submit" class="btn btn-primary">Update</button>
+    </div>
+  </div>
+</form>
+</@main.page>

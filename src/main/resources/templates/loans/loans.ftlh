@@ -1,54 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Loans</title>
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-  </head>
-  <body>
-  <H3><a href="/">Loans</a></H3>
-  <br>
-  <a href="/loans/new"> New loan </a>
-  <br>
-    <#if loans?? && (loans?size > 0)>
-    <table id="loans" border=1>
+<#import "/main.ftlh" as main>
+<@main.page>
+    <form action="/loans/new">
+      <button class="btn btn-primary" type="submit">New loan</button>
+    </form>
+    <table class="table container mt-5">
+      <thead>
         <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Limit</th>
-          <th>Interest</th>
-          <th>Bank</th>
-          <th>Edit</th>
-          <th>Delete</th>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Limit</th>
+          <th scope="col">Interest</th>
+          <th scope="col">Bank</th>
+          <th scope="col">Edit</th>
+          <th scope="col">Delete</th>
         </tr>
-    <#list loans as loan>
-    <tr>
-      <td>
-         <span> ${loan.uuid} </span>
-      </td>
-      <td>
-         <span> ${loan.name} </span>
-      </td>
-      <td>
-          <span> ${loan.limit} </span>
-      </td>
-      <td>
-         <span> ${loan.interestRate}% </span>
-      </td>
-      <td>
-         <span> ${loan.bank.name} </span>
-      </td>
-      <td>
-         <a href="/loans/${loan.uuid}/edit">Edit</a>
-      </td>
-      <td>
-         <a href="/loans/${loan.uuid}/delete">Delete</a>
-      </td>
-    </tr>
-    </#list>
+      </thead>
+      <#if loans?? && (loans?size > 0)>
+      <#list loans as loan>
+      <tbody>
+        <tr>
+          <th scope="row">${loan?index + 1}</th>
+          <td><a href="/loans/${loan.uuid}">${loan.name}</a></td>
+          <td>${(loan.limit / 100)?string.currency}</td>
+          <td>${loan.interestRate * 100} %</td>
+          <td>${loan.bank.name}</td>
+          <td><a href="/loans/${loan.uuid}/edit">Edit</a></td>
+          <td><a href="/loans/${loan.uuid}/delete">Delete</a></td>
+        </tr>
+      </tbody>
+      </#list>
     </table>
-    <#else>
-        No Details Available
     </#if>
-  </body>
-</html>
+</@main.page>
