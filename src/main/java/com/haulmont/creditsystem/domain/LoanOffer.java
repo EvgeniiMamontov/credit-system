@@ -4,14 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -22,7 +22,7 @@ import java.util.UUID;
 @Getter
 @Entity
 @Table(name="loan_offer")
-public class LoanOffer {
+public class LoanOffer implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -40,12 +40,12 @@ public class LoanOffer {
 
     @Column(name = "amount")
     @Min(value = 0)
-    @Max(value = 999999999)
+    @Max(value = Long.MAX_VALUE)
     private long amount;
 
     @Column(name = "interest_total")
     @Min(value = 0)
-    @Max(value = 999999999)
+    @Max(value = Long.MAX_VALUE)
     private long interestTotal;
 
     @Column(name = "loan_term")
@@ -60,14 +60,6 @@ public class LoanOffer {
     @OneToMany(mappedBy = "loanOffer", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Payment> paymentSchedule;
 
-    public LoanOffer(Client client, Loan loan, long amount, int loanTerm, LocalDate date) {
-        this.client = client;
-        this.loan = loan;
-        this.amount = amount;
-        this.loanTerm = loanTerm;
-        this.date = date;
-    }
-
     public LoanOffer(UUID uuid, Client client, Loan loan, long amount, int loanTerm, LocalDate date) {
         this.uuid = uuid;
         this.client = client;
@@ -75,6 +67,7 @@ public class LoanOffer {
         this.amount = amount;
         this.loanTerm = loanTerm;
         this.date = date;
+        this.paymentSchedule = new ArrayList<>();
     }
 
     @Override

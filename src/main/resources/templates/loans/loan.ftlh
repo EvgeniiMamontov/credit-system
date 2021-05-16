@@ -16,7 +16,7 @@
           <td>${loan.uuid}</td>
           <td>${loan.name}</td>
           <td>${(loan.limit / 100)?string.currency}</td>
-          <td>${loan.interestRate * 100} %</td>
+          <td>${(loan.interestRate * 100)?string["0.##"]} %</td>
           <td>${loan.bank.name}</td>
         </tr>
       </tbody>

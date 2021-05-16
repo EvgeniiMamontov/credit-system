@@ -10,15 +10,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.UUID;
 
 @Controller
+@RequestMapping("/loanoffers")
 public class LoanOfferController {
 
-    private ClientService clientService;
-    private LoanService loanService;
-    private LoanOfferService loanOfferService;
+    private final ClientService clientService;
+    private final LoanService loanService;
+    private final LoanOfferService loanOfferService;
 
     public LoanOfferController(ClientService clientService, LoanService loanService, LoanOfferService loanOfferService) {
         this.clientService = clientService;
@@ -26,73 +26,74 @@ public class LoanOfferController {
         this.loanOfferService = loanOfferService;
     }
 
-    @GetMapping("loanoffers")
-    public String getAllLoanOffers(Model model) {
-        model.addAttribute("loanoffers", loanOfferService.getAllLoanOffers() );
-        return "loanoffers/loanoffers";
-    }
-
-    @GetMapping("client/{uuid}/newoffer")
-    public String newLoanOffer(Model model, @PathVariable(name = "uuid") UUID uuid) {
-        model.addAttribute("client", clientService.getByUuid(uuid));
-        model.addAttribute("loans", loanService.getAllLoans());
-        model.addAttribute("clients", clientService.getAllClients());
-        return "loanoffers/loanoffer_new";
-    }
-
-    @PostMapping("client/{uuid}/newoffer")
-    public String addLoanOffer(@RequestParam(name = "client_uuid") UUID clientUuid,
-                          @RequestParam(name = "loan_uuid") UUID loanUuid,
-                          @RequestParam(name = "summ") long summ,
-                          @RequestParam(name = "loan_term") int loanTerm,
-                          @RequestParam(name = "date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate firstPaymentDate) {
-        Client client = clientService.getByUuid(clientUuid);
-        Loan loan = loanService.getByUuid(loanUuid);
-        LoanOffer loanOffer = new LoanOffer(client, loan, summ * 100, loanTerm, firstPaymentDate);
-        List<Payment> paymentSchedule = loanOfferService.generatePaymentSchedule(loan, summ * 100, loanTerm, firstPaymentDate, loanOffer);
-        loanOffer.setPaymentSchedule(paymentSchedule);
-        UUID uuid = loanOfferService.save(loanOffer).getUuid();
-        return "redirect:/loanoffers/" + uuid;
-    }
-
-    @GetMapping("loanoffers/{loanOffer}/edit")
-    public String editLoanOffer(Model model, @PathVariable LoanOffer loanOffer) {
-        model.addAttribute("loanoffer", loanOffer);
-        model.addAttribute("currentClient", loanOffer.getClient());
-        model.addAttribute("loans", loanService.getAllLoans());
-        model.addAttribute("clients", clientService.getAllClients());
-        return "loanoffers/loanoffer_edit";
-    }
-
-    @PostMapping("loanoffers/{uuid}/edit")
-    public String updateLoanOffer(@PathVariable UUID uuid,
-                                  @RequestParam(name = "client_uuid") UUID clientUuid,
-                                  @RequestParam(name = "loan_uuid") UUID loanUuid,
-                                  @RequestParam(name = "summ") long summ,
-                                  @RequestParam(name = "loan_term") int loanTerm,
-                                  @RequestParam(name = "date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate firstPaymentDate) {
-        Client client = clientService.getByUuid(clientUuid);
-        Loan loan = loanService.getByUuid(loanUuid);
-        LoanOffer loanOffer = new LoanOffer(uuid, client, loan, summ * 100, loanTerm, firstPaymentDate);
-        List<Payment> paymentSchedule = loanOfferService.generatePaymentSchedule(loan, summ * 100, loanTerm, firstPaymentDate, loanOffer);
-        loanOffer.setPaymentSchedule(paymentSchedule);
-        loanOfferService.save(loanOffer);
-        return "redirect:/loanoffers/";
-    }
-
-    @GetMapping("loanoffers/{loanOffer}")
+    @GetMapping("/{loanOffer}")
     public String getLoanOffer(@PathVariable LoanOffer loanOffer, Model model) {
         model.addAttribute("loanoffer", loanOffer);
         return "loanoffers/loanoffer";
     }
 
-    @GetMapping("loanoffers/{loanOffer}/delete")
+    @GetMapping
+    public String getAllLoanOffers(Model model) {
+        model.addAttribute("loanoffers", loanOfferService.getAllLoanOffers() );
+        return "loanoffers/loanoffers";
+    }
+
+    @GetMapping("/new")
+    public String newLoanOffer(Model model) {
+        model.addAttribute("loans", loanService.getAllLoans());
+        model.addAttribute("clients", clientService.getAllClients());
+        return "loanoffers/loanoffer_new";
+    }
+
+    @PostMapping("/new")
+    public String addLoanOffer(@RequestParam(name = "client_uuid") Client client,
+                          @RequestParam(name = "loan_uuid") Loan loan,
+                          @RequestParam(name = "summ") long summ,
+                          @RequestParam(name = "loan_term") int loanTerm,
+                          @RequestParam(name = "date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate firstPaymentDate) {
+        LoanOffer loanOffer = new LoanOffer(UUID.randomUUID(), client, loan, summ*100, loanTerm, firstPaymentDate);
+        loanOfferService.generatePaymentSchedule(loanOffer);
+        loan.getBank().addClient(client);
+        UUID uuid = loanOfferService.save(loanOffer).getUuid();
+        return "redirect:/loanoffers/" + uuid;
+    }
+
+    @GetMapping("/{loanOffer}/edit")
+    public String editLoanOffer(Model model, @PathVariable LoanOffer loanOffer) {
+        model.addAttribute("loanoffer", loanOffer);
+        model.addAttribute("loans", loanService.getAllLoans());
+        model.addAttribute("clients", clientService.getAllClients());
+        return "loanoffers/loanoffer_edit";
+    }
+
+    @PostMapping("/{uuid}/edit")
+    public String updateLoanOffer(@PathVariable UUID uuid,
+                                  @RequestParam(name = "client_uuid") Client client,
+                                  @RequestParam(name = "loan_uuid") Loan loan,
+                                  @RequestParam(name = "summ") long summ,
+                                  @RequestParam(name = "loan_term") int loanTerm,
+                                  @RequestParam(name = "date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate firstPaymentDate) {
+        LoanOffer loanOffer = loanOfferService.getByUuid(uuid);
+        System.out.println(loanOffer);
+        loanOffer.setClient(client);
+        loanOffer.setLoan(loan);
+        loanOffer.setAmount(summ*100);
+        loanOffer.setLoanTerm(loanTerm);
+        loanOffer.setDate(firstPaymentDate);
+        //LoanOffer loanOffer = new LoanOffer(uuid, client, loan, summ*100, loanTerm, firstPaymentDate);
+        loanOfferService.generatePaymentSchedule(loanOffer);
+        loan.getBank().addClient(client);
+        loanOfferService.save(loanOffer);
+        return "redirect:/loanoffers/";
+    }
+
+    @GetMapping("/{loanOffer}/delete")
     public String deleteLoanOffer(@PathVariable LoanOffer loanOffer, Model model) {
         model.addAttribute("loanoffer", loanOffer);
         return "/loanoffers/loanoffer_delete";
     }
 
-    @PostMapping("loanoffers/{loanOffer}/delete")
+    @PostMapping("/{loanOffer}/delete")
     public String deleteLoanOffer(@PathVariable LoanOffer loanOffer) {
         loanOfferService.delete(loanOffer);
         return "redirect:/loanoffers/";

@@ -1,6 +1,5 @@
 package com.haulmont.creditsystem.service.impl;
 
-import com.haulmont.creditsystem.domain.Loan;
 import com.haulmont.creditsystem.domain.LoanOffer;
 import com.haulmont.creditsystem.domain.Payment;
 import com.haulmont.creditsystem.repository.LoanOfferRepository;
@@ -8,13 +7,12 @@ import com.haulmont.creditsystem.service.LoanOfferService;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
 import java.util.*;
 
 @Service
 public class LoanOfferServiceImpl implements LoanOfferService {
 
-    private LoanOfferRepository loanOfferRepository;
+    private final LoanOfferRepository loanOfferRepository;
 
     public LoanOfferServiceImpl(LoanOfferRepository loanOfferRepository) {
         this.loanOfferRepository = loanOfferRepository;
@@ -43,23 +41,22 @@ public class LoanOfferServiceImpl implements LoanOfferService {
     }
 
     @Override
-    public List<Payment> generatePaymentSchedule(Loan loan, long summ, int loanTerm, LocalDate firstPaymentDate, LoanOffer loanOffer) {
-        List<Payment> result = new ArrayList<>();
-        float interest = loan.getInterestRate();
-        float p = interest / 12; // percentage of interest rate (month)
-        long monthlyPayment = (long) Math.floor(summ * (p + (p / (Math.pow((1 + p), loanTerm) - 1))));
-        long interestTotal = 0;
+    public void generatePaymentSchedule(LoanOffer loanOffer) {
+        float p = loanOffer.getLoan().getInterestRate() / 12; // percentage of interest rate (month)
+        long monthlyPayment = (long) Math.round(loanOffer.getAmount() * (p + (p / (Math.pow((1 + p), loanOffer.getLoanTerm()) - 1))));
 
-        for (int i = 0; i < loanTerm; i++) {
-            LocalDate date = firstPaymentDate.plusMonths(i);
+        long interestTotal = 0;
+        long summ = loanOffer.getAmount();
+        List<Payment> paymentSchedule = loanOffer.getPaymentSchedule();
+        paymentSchedule.clear();
+        for (int i = 0; i < loanOffer.getLoanTerm(); i++) {
             long interestAmount = (long) Math.floor(summ * p);
-            interestTotal += interestAmount;
             long principalAmount = monthlyPayment - interestAmount;
-            long balanceOwed = summ - principalAmount;
-            result.add(new Payment(date, monthlyPayment, principalAmount, interestAmount, loanOffer));
-            summ = balanceOwed;
+            summ -= principalAmount;
+            paymentSchedule.add(new Payment(UUID.randomUUID(), loanOffer.getDate().plusMonths(i), monthlyPayment, principalAmount, interestAmount, loanOffer));
+            interestTotal += interestAmount;
         }
         loanOffer.setInterestTotal(interestTotal);
-        return result;
+        loanOffer.setPaymentSchedule(paymentSchedule);
     }
 }

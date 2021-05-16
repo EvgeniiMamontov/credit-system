@@ -6,13 +6,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
-
 @Controller
 @RequestMapping("/banks")
 public class BankController {
 
-    private BankService bankService;
+    private final BankService bankService;
 
     public BankController(BankService bankService) {
         this.bankService = bankService;
@@ -48,9 +46,8 @@ public class BankController {
     }
 
     @PostMapping("/{uuid}/edit")
-    public String editBank(@RequestParam(name = "uuid") UUID uuid,
+    public String editBank(@RequestParam(name = "uuid") Bank bank,
                            @RequestParam(name = "name") String name) {
-        Bank bank = bankService.getByUuid(uuid);
         bank.setName(name);
         bankService.save(bank);
         return "redirect:/banks/";

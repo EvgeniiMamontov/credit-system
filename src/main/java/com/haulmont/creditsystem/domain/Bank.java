@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
@@ -14,7 +15,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Entity
 @Table(name="bank")
-public class Bank {
+public class Bank implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -52,5 +53,9 @@ public class Bank {
     @Override
     public int hashCode() {
         return Objects.hash(uuid);
+    }
+
+    public void addClient(Client client){
+        clients.add(client);
     }
 }

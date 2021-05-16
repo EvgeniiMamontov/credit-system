@@ -12,7 +12,7 @@ import java.util.UUID;
 @Service
 public class BankServiceImpl implements BankService {
 
-    private BankRepository bankRepository;
+    private final BankRepository bankRepository;
 
     public BankServiceImpl(BankRepository bankRepository) {
         this.bankRepository = bankRepository;

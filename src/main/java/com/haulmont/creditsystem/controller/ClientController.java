@@ -1,8 +1,6 @@
 package com.haulmont.creditsystem.controller;
 
-import com.haulmont.creditsystem.domain.Bank;
 import com.haulmont.creditsystem.domain.Client;
-import com.haulmont.creditsystem.domain.Loan;
 import com.haulmont.creditsystem.service.ClientService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +12,7 @@ import java.util.UUID;
 @RequestMapping("/clients")
 public class ClientController {
 
-    private ClientService clientService;
+    private final ClientService clientService;
 
     public ClientController(ClientService clientService) {
         this.clientService = clientService;
@@ -24,6 +22,12 @@ public class ClientController {
     public String getAllClients(Model model) {
         model.addAttribute("clients", clientService.getAllClients() );
         return "clients/clients";
+    }
+
+    @GetMapping("/{client}")
+    public String getClient(@PathVariable Client client, Model model) {
+        model.addAttribute("client", client );
+        return "clients/client";
     }
 
     @GetMapping("/new")
@@ -47,24 +51,17 @@ public class ClientController {
     }
 
     @PostMapping("/{uuid}/edit")
-    public String updateClient(@RequestParam(name = "uuid") UUID uuid,
+    public String updateClient(@RequestParam(name = "uuid") Client client,
                                @RequestParam(name = "name") String fullName,
                                @RequestParam(name = "phone") String phoneNumber,
                                @RequestParam(name = "email") String email,
                                @RequestParam(name = "passport") String passportNumber) {
-        Client client = clientService.getByUuid(uuid);
         client.setFullName(fullName);
         client.setPhoneNumber(phoneNumber);
         client.setEmail(email);
         client.setPassportNumber(passportNumber);
         clientService.save(client);
         return "redirect:/clients/";
-    }
-
-    @GetMapping("/{client}")
-    public String getClient(@PathVariable Client client, Model model) {
-        model.addAttribute("client", client );
-        return "clients/client";
     }
 
     @GetMapping("/{client}/delete")

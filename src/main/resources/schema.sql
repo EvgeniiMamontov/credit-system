@@ -29,7 +29,7 @@ CREATE TABLE client (
 CREATE TABLE loan (
 	loan_uuid binary(16) not null,
 	    loan_name varchar(50),
-        loan_limit bigint check (loan_limit>=1 AND loan_limit<=999999999),
+        loan_limit bigint check (loan_limit>=1 AND loan_limit<=99999999999),
         interest_rate float(24),
         bank_uuid binary(16),
         primary key (loan_uuid)
@@ -40,8 +40,8 @@ CREATE TABLE loan_offer (
 	loan_offer_uuid binary(16) not null,
 	    client_uuid binary(16),
         loan_uuid binary(16),
-        amount bigint check (amount>=1 AND amount<=999999999),
-        interest_total bigint check (interest_total>=1 AND interest_total<=999999999),
+        amount bigint check (amount>=1 AND amount<=99999999999),
+        interest_total bigint check (interest_total>=1 AND interest_total<=99999999999),
         loan_term integer check (loan_term>=1 AND loan_term<=240),
         first_payment_date date,
         primary key (loan_offer_uuid)
@@ -50,9 +50,9 @@ CREATE TABLE loan_offer (
 CREATE TABLE payment (
 	payment_uuid binary(16) not null,
         date date,
-        payment_amount bigint check (payment_amount>=0 AND payment_amount<=999999999),
-        principal_amount bigint check (principal_amount>=0 AND principal_amount<=999999999),
-        interest_amount bigint check (interest_amount>=0 AND interest_amount<=999999999),
+        payment_amount bigint check (payment_amount>=0 AND payment_amount<=99999999999),
+        principal_amount bigint check (principal_amount>=0 AND principal_amount<=99999999999),
+        interest_amount bigint check (interest_amount>=0 AND interest_amount<=99999999999),
         loan_offer_uuid binary(16),
         primary key (payment_uuid)
 );

@@ -16,7 +16,7 @@
   <div class="form-group row">
     <div class="form-group col-3">
       <label for="loans">Loan</label>
-      <select class="form-control" name="loan_uuid" id="loan_uuid" required>
+      <select class="form-control" name="loan_uuid" id="loan_uuid" onchange="getLoanLimitValue();" required>
         <#if loans??>
           <#list loans as loan>
             <option value="${loan.uuid}">${loan.name}</option>
@@ -28,19 +28,19 @@
   <div class="form-group row">
     <div class="form-group col-3">
       <label for="summ">Loan amount $</label><br>
-      <input class="form-control" type="text" id="summ" name="summ" pattern="[0-9]{1,20}" required>
+      <input class="form-control" type="number" id="summ" name="summ" min="1" max="999999999" required>
     </div>
   </div>
   <div class="form-group row">
     <div class="form-group col-3">
       <label for="loan_term">Loan term (months)</label><br>
-      <input class="form-control" type="text" id="loan_term" name="loan_term" pattern="[0-9]{1,3}" min="1" max="240" required>
+      <input class="form-control" type="number" id="loan_term" name="loan_term" min="1" max="240" required>
     </div>
   </div>
   <div class="form-group row">
     <div class="form-group col-3">
       <label for="date">First payment date</label><br>
-      <input class="form-control" type="date" id="date" name="date" required>
+      <input class="form-control" type="date" id="date" name="date" min="${.now?string['yyyy-MM-dd']}" required>
     </div>
   </div>
 
@@ -50,4 +50,12 @@
     </div>
   </div>
 </form>
+<script>
+  function getLoanLimitValue() {
+      var arr={<#list loans as loan>"${loan.uuid}":${loan.limit?c}, </#list>};
+      var select = document.getElementById('loan_uuid');
+      var value = select.value;
+      document.getElementById('summ').max = arr[value] / 100;
+  }
+</script>
 </@main.page>

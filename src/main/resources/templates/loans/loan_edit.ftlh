@@ -11,13 +11,13 @@
   <div class="form-group row">
     <div class="form-group col-3">
       <label for="limit">Limit $</label>
-      <input type="text" class="form-control" id="limit" name="limit" title="Enter $1 to $9'999'999" min="0" max="9999999" value="${(loan.limit / 100)?c}" required>
+      <input type="number" class="form-control" id="limit" name="limit" title="Enter $1 to $9'999'999" min="1" max="999999999" value="${(loan.limit / 100)?c}" required>
     </div>
   </div>
   <div class="form-group row">
     <div class="form-group col-3">
       <label for="interest">Interest %</label>
-      <input type="text" class="form-control" id="interest" name="interest" min="0" step="0.01" title="Currency" pattern="^\d+(?:\.\d{1,2})?$" value="${(loan.interestRate * 100)?c}" required>
+      <input type="number" class="form-control" id="interest" name="interest" min="0" max="99.99" step="0.01" pattern="^\d+(?:\.\d{1,2})?$" value="${(loan.interestRate * 100)?string["0.##"]}" required>
     </div>
   </div>
   <div class="form-group row">

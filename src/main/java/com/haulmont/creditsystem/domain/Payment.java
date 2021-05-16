@@ -6,6 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.UUID;
@@ -16,7 +17,7 @@ import java.util.UUID;
 @Getter
 @Entity
 @Table(name="payment")
-public class Payment {
+public class Payment implements Serializable {
 
     @Id
     @GeneratedValue
@@ -45,14 +46,6 @@ public class Payment {
     @ManyToOne
     @JoinColumn(name = "loan_offer_uuid")
     private LoanOffer loanOffer;
-
-    public Payment(LocalDate date, long paymentAmount, long principalAmount, long interestAmount, LoanOffer loanOffer) {
-        this.date = date;
-        this.paymentAmount = paymentAmount;
-        this.principalAmount = principalAmount;
-        this.interestAmount = interestAmount;
-        this.loanOffer = loanOffer;
-    }
 
     @Override
     public boolean equals(Object o) {

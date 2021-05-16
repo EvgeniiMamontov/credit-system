@@ -22,7 +22,7 @@
           <th scope="row">${loan?index + 1}</th>
           <td><a href="/loans/${loan.uuid}">${loan.name}</a></td>
           <td>${(loan.limit / 100)?string.currency}</td>
-          <td>${loan.interestRate * 100} %</td>
+          <td>${(loan.interestRate * 100)?string["0.##"]} %</td>
           <td>${loan.bank.name}</td>
           <td><a href="/loans/${loan.uuid}/edit">Edit</a></td>
           <td><a href="/loans/${loan.uuid}/delete">Delete</a></td>

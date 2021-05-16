@@ -31,7 +31,7 @@
         <tr>
           <td>${loan.name}</td>
           <td>${(loan.limit / 100)?string.currency}</td>
-          <td>${(loan.interestRate * 100)?c} %</td>
+          <td>${(loan.interestRate * 100)?string["0.##"]} %</td>
         </tr>
       </tbody>
     </#list>
@@ -53,7 +53,7 @@
       <tbody>
         <tr>
           <td>${client.fullName}</td>
-          <td>${client.phoneNumber}}</td>
+          <td>${client.phoneNumber}</td>
           <td>${client.email}</td>
           <td>${client.passportNumber}</td>
         </tr>

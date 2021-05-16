@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
@@ -14,7 +15,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Entity
 @Table(name="loan")
-public class Loan {
+public class Loan implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -34,7 +35,7 @@ public class Loan {
 
     @Column(name = "interest_rate")
     @DecimalMin("0")
-    @DecimalMax("100")
+    @DecimalMax("0.9999")
     private float interestRate;
 
     @ManyToOne(fetch = FetchType.LAZY)

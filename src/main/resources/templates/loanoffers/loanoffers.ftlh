@@ -1,7 +1,7 @@
 <#import "/main.ftlh" as main>
 <@main.page>
-    <form action="">
-      <button class="btn btn-primary" type="submit" disabled>New loan offer</button>
+    <form action="/loanoffers/new">
+      <button class="btn btn-primary" type="submit">New loan offer</button>
     </form>
     <table class="table container mt-5">
       <thead>

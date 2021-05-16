@@ -21,7 +21,7 @@
         </tr>
       </tbody>
     </table>
-  <form method="get" action="/client/${client.uuid}/newoffer">
+  <form method="get" action="/loanoffers/new">
     <button class="btn btn-primary" type="submit">Create loan offer</button>
   </form>
 </@main.page>

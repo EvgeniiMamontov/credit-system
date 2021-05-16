@@ -32,7 +32,7 @@
         <tr>
           <td>${(loanoffer.amount / 100)?string.currency}</td>
           <td>${loanoffer.loanTerm} months</td>
-          <td>${(loanoffer.loan.interestRate * 100)?c} %</td>
+          <td>${(loanoffer.loan.interestRate * 100)?string["0.##"]} %</td>
           <td>${(loanoffer.interestTotal / 100)?string.currency}</td>
         </tr>
       </tbody>

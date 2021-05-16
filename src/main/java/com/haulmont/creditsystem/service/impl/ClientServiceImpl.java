@@ -12,7 +12,7 @@ import java.util.UUID;
 @Service
 public class ClientServiceImpl implements ClientService {
 
-    private ClientRepository clientRepository;
+    private final ClientRepository clientRepository;
 
     public ClientServiceImpl(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;

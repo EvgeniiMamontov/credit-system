@@ -16,7 +16,7 @@
   <div class="form-group row">
     <div class="form-group col-3">
       <label for="email">Email</label>
-      <input type="text" class="form-control" id="email" name="email" maxlength="50" required>
+      <input type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" class="form-control" id="email" name="email" maxlength="320" required>
     </div>
   </div>
   <div class="form-group row">

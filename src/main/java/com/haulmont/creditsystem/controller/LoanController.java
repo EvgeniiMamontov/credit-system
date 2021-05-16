@@ -14,8 +14,8 @@ import java.util.UUID;
 @RequestMapping("/loans")
 public class LoanController {
 
-    private LoanService loanService;
-    private BankService bankService;
+    private final LoanService loanService;
+    private final BankService bankService;
 
     public LoanController(LoanService loanService, BankService bankService) {
         this.loanService = loanService;
@@ -44,9 +44,8 @@ public class LoanController {
     public String addLoan(@RequestParam(name = "name") String name,
                           @RequestParam(name = "limit") long limit,
                           @RequestParam(name = "interest") float interest,
-                          @RequestParam(name = "bank") UUID bankUuid) {
-        Bank bank = bankService.getByUuid(bankUuid);
-        loanService.save(new Loan(name, limit * 100, interest / 100, bank));
+                          @RequestParam(name = "bank") Bank bank) {
+        loanService.save(new Loan(name, limit*100, interest/100, bank));
         return "redirect:";
     }
 
@@ -58,12 +57,11 @@ public class LoanController {
     }
 
     @PostMapping("/{uuid}/edit")
-    public String updateLoan(@RequestParam(name = "uuid") UUID uuid,
+    public String updateLoan(@RequestParam(name = "uuid") Loan loan,
                              @RequestParam(name = "name") String name,
                              @RequestParam(name = "limit") long limit,
                              @RequestParam(name = "interest") float interest,
                              @RequestParam(name = "bank") Bank bank) {
-        Loan loan = loanService.getByUuid(uuid);
         loan.setName(name);
         loan.setLimit(limit * 100);
         loan.setInterestRate(interest / 100);
